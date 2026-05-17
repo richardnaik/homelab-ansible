@@ -1,0 +1,21 @@
+---
+- hosts: manager
+  vars_files:
+  - "secrets"
+  become: yes
+  tasks:
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+
+- hosts: workers
+  vars_files:
+  - "secrets"
+  become: yes
+  tasks:
+    - name: Add nodes
+      community.docker.docker_swarm:
+        state: join
+        advertise_addr: ansible_default_ipv4.address 
+        join_token: "{{ swarm_token }}" 
+        remote_addrs: ["{{ swarm_manager }}"]

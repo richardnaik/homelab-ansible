@@ -1,0 +1,26 @@
+---
+- hosts: all
+  vars_files:
+  - "secrets"
+  become: yes
+  tasks:
+    - name: 'Gluster package'
+      apt:
+        pkg:
+          - glusterfs-server
+        state: present
+    - name: Enable and start glusterd service
+      ansible.builtin.service:
+        name: glusterd
+        enabled: true
+        state: started
+    - name: Gluster brick directory
+      ansible.builtin.file:
+        path: /data/glusterfs/dockervol/brick1
+        state: directory
+        mode: '0755'
+    - name: Storage mount point
+      ansible.builtin.file:
+        path: /mnt/docker-storage
+        state: directory
+        mode: '0755'

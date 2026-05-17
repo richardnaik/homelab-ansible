@@ -1,0 +1,6 @@
+[manager]
+manager.lan
+
+[workers]
+worker1.lan
+worker2.lan

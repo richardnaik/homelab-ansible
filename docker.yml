@@ -1,0 +1,31 @@
+---
+- hosts: all
+  vars_files:
+  - "secrets"
+  become: yes
+  tasks:
+    - name: 'Docker deps and helper packages'
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - fuse-overlayfs
+          - python3-docker
+        state: present
+
+    - name: Docker signing key
+      ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.gpg
+
+    - name: 'Docker Repository'
+      apt_repository:
+        repo: deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian trixie stable
+        state: present
+
+    - name: 'Docker: Install docker'
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
