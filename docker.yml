@@ -29,3 +29,9 @@
           - docker-ce-cli
           - containerd.io
         state: present
+
+    - name: 'Docker: enable and start service'
+      ansible.builtin.service:
+        name: docker
+        enabled: yes
+        state: started
