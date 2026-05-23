@@ -9,5 +9,5 @@ Will clean up and give a more detailed description as time allows.
 Reccomended order of playbooks:
 patch.yml (on new machine builds)
 docker.yml
-swarm.yml
+swarm.yml (I start with just one manager and then promote all the nodes to managers)
 gluster.yml (you'll need to format the disks and create the volume manually)

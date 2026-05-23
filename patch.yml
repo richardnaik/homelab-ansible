@@ -15,6 +15,7 @@
         - vim
         - htop
         - tmux
+        - xxd
 
   - name: Update all packages to their latest version
     ansible.builtin.apt:
