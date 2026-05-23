@@ -1,0 +1,19 @@
+---
+version: '3.8'
+
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    ports:
+      - "9100:9100"
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints: [node.platform.os == linux]
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'

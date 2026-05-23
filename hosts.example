@@ -4,3 +4,6 @@ manager.lan
 [workers]
 worker1.lan
 worker2.lan
+
+[proxy]
+proxy.lan
