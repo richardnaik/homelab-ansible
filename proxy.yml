@@ -3,16 +3,24 @@
   - "secrets"
   become: yes
   tasks:
-    - name: 'Nginx install'
+    - name: 'Caddy signing key'
+      ansible.builtin.shell: curl -fsSL 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /etc/apt/keyrings/caddy-stable-archive-keyring.gpg
+
+    - name: 'Caddy repo'
+      apt_repository:
+        repo: deb [signed-by=/etc/apt/caddy-stable-archive-keyring.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main
+        state: present
+
+    - name: 'Caddy install'
       apt:
         pkg:
-          - nginx
+          - caddy
           - ufw
         state: present
 
-    - name: 'Start nginx'
+    - name: 'Start caddy'
       ansible.builtin.service:
-        name: nginx
+        name: caddy
         enabled: yes
         state: started
 
