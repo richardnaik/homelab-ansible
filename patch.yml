@@ -16,6 +16,7 @@
         - htop
         - tmux
         - xxd
+        - sqlite3
 
   - name: Update all packages to their latest version
     ansible.builtin.apt:
@@ -25,3 +26,11 @@
   - name: Reboot machine
     ansible.builtin.reboot:
       msg: "Patch complete - rebooting"
+      reboot_timeout: 600
+      pre_reboot_delay: 60
+      post_reboot_delay: 30
+      connect_timeout: 5
+      test_command: uptime
+
+  - name: Mount # run mount -a since gluster is not fully up by the time fstab is mounted on boot
+    ansible.builtin.shell: mount -a
